@@ -8,11 +8,7 @@ It will download everything: .pdf, .mobi, .epub and the zip file if any.
 
 ## How to use
 
-### Using `Virtualenv` *(recommended)*
-
 It is always better to create a virtual environment to isolate Python environments. 
-
-**Installing virtualenv**
 
 Assuming you already have a working Python environment set up, open up a terminal and refer to [the virtualenv webpage][virtualenv rtd] to set up everything.
 
