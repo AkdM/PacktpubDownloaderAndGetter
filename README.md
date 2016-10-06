@@ -32,6 +32,23 @@ I've set up multiple arguments for you to provide, those can be shown using the 
 
 `python pbdl.py --help`
 
+## What for?
+
+Packtpub.com has a free ebook available each day, I didn't want to download my 100+ ebooks I had on my account, so I developed this.
+
+If you feel in the same situation, feel free to use this :)
+
+## Changelog
+
+**v0.2** (October 06, 2016)
+
+* **[FIXED]** Some URL weren't downloading
+* **[IMPROVED]** CLI is now almost beautiful
+* **[IMPROVED]** Speed
+
+**v0.1** (October 06, 2016)
+
+* First version, some things are working.
 
 ## Development
 

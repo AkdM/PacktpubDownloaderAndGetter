@@ -17,7 +17,7 @@ from fake_useragent import UserAgent
 __author__ = "Anthony Da Mota"
 __credits__ = ["Anthony Da Mota"]
 __license__ = "MIT"
-__version__ = "0.1"
+__version__ = "0.2"
 __maintainer__ = "Anhony Da Mota"
 __email__ = "anthony@damota.me"
 __status__ = "Development"
@@ -37,7 +37,7 @@ def clearAndWrite():
         os.system("cls")
     else:
         os.system("clear")
-    print "[PacktPub Downloader v0.1]\n"
+    print "[PacktPub Downloader v{}]\n".format(__version__)
 
 
 def get_user_agent():
@@ -71,6 +71,8 @@ def main(argv):
             os.makedirs(dl_path)
 
         clearAndWrite()
+        print "\nLogging in..."
+
         headers = { 'User-Agent' : get_user_agent(), "Referer": base_url }
         login_data = {
             "email": args.username,
@@ -80,25 +82,44 @@ def main(argv):
         }
         the_login = req.post(base_url, data=login_data, headers=headers)
 
-        the_books = req.get(ebooks_url, headers=headers)
-        books_soup = BeautifulSoup(the_books.text, 'html.parser')
+        if the_login.status_code == 200:
+            print "\nLogin success!\n"
 
-        product_account_list = books_soup.find(attrs={"id": "product-account-list"})
+            the_books = req.get(ebooks_url, headers=headers)
+            books_soup = BeautifulSoup(the_books.text, 'html.parser')
 
-        for product in product_account_list.find_all("div", {"class": "product-line"}):
-            if 'title' in product.attrs:
-                title = product.attrs['title']
-                filename_pattern = re.compile("\d{13}.*\.[a-zA-z0-9]{3,}")
-                print "Downloading {}".format(title)
-                for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
-                    if link.attrs['href'] != "#":
-                        ebook_link = "{}{}".format(base_url, link.attrs['href'])
-                        download_ebook = req.get(ebook_link, headers=headers, allow_redirects=True)
-                        filename_with_path = filename_pattern.findall(download_ebook.url)[0]
-                        if not os.path.exists(dl_path + filename_with_path.split("/")[0]):
-                            os.makedirs(dl_path + filename_with_path.split("/")[0])
-                        with open(dl_path + filename_with_path, "wb") as ebook:
-                            ebook.write(download_ebook.content)
+            product_account_list = books_soup.find(attrs={"id": "product-account-list"})
+
+            media_pattern = re.compile("(code|ebook)_download\/\d+\/?(pdf|epub|mobi)?")
+
+            for product in product_account_list.find_all("div", {"class": "product-line"}):
+                if 'title' in product.attrs:
+                    title = product.attrs['title']
+                    print "Downloading {}".format(title)
+                    for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
+                        if link.attrs['href'] != "#":
+                            ebook_link = "{}{}".format(base_url, link.attrs['href'])
+
+                            ebook_link_divider = media_pattern.search(ebook_link)
+                            if ebook_link_divider.group(1) == "ebook":
+                                media_type = ".{}".format(ebook_link_divider.group(2))
+                            else:
+                                media_type = ".zip"
+
+                            filename = valid_filename(title, True)
+                            directory = filename
+                            filename_with_extension = "{}{}".format(filename, media_type)
+                            
+                            print "\t… {}".format(media_type)
+                            
+                            product_req = req.get(ebook_link, headers=headers, allow_redirects=True)
+                            if not os.path.exists("{}{}".format(dl_path, directory)):
+                                os.makedirs("{}{}".format(dl_path, directory))
+                            with open("{}{}/{}".format(dl_path, directory, filename_with_extension), "wb") as item:
+                                item.write(product_req.content)
+        else:
+            print "\nLogin failed. Please check credentials.\n"
+
 
     except KeyboardInterrupt:
         print "\nExiting...\n"
