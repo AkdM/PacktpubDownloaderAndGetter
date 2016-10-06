@@ -1,11 +1,14 @@
 # Packtpub Downloader
+----
 
 Packtpub Downloader is a small tool that allows any registered account to automatically download all the ebooks (ps: more options to come).
 It will download everything: .pdf, .mobi, .epub and the zip file if any.
 
-### How to use
+![Packpub Downloader screenshot](screenshot.png?raw=true "Screenshot")
 
-#### Using `Virtualenv` *(recommended)*
+## How to use
+
+### Using `Virtualenv` *(recommended)*
 
 It is always better to create a virtual environment to isolate Python environments. 
 
@@ -30,11 +33,11 @@ I've set up multiple arguments for you to provide, those can be shown using the 
 `python pbdl.py --help`
 
 
-### Development
+## Development
 
 Want to contribute? Great! You're welcome to make some pull requests!
 
-### Todos
+## Todos
 
  - Things
 
