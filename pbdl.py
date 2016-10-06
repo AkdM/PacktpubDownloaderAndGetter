@@ -9,6 +9,7 @@ import sys
 import os
 import argparse
 import requests
+import re
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
@@ -42,6 +43,16 @@ def get_user_agent():
     return UserAgent().random
 
 
+def valid_filename(text, title=False):
+    output = ""
+    if title:
+        output = text.replace(" [eBook]", "")
+        output = re.sub('\W', '_', output)
+    else:
+        output = re.sub('\W', '_', text)
+    return output
+
+
 def main(argv):
     args = arguments()
     login_username = args.username
@@ -68,9 +79,10 @@ def main(argv):
         for product in product_account_list.find_all("div", {"class": "product-line"}):
             if 'title' in product.attrs:
                 title = product.attrs['title']
-                for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
-                    if link.attrs['href'] != "#":
-                        print link.attrs['href']
+                print valid_filename(title, True)
+                # for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
+                #     if link.attrs['href'] != "#":
+                #         print "{}{}".format(base_url, link.attrs['href'])
 
     except KeyboardInterrupt:
         print "\nExiting...\n"
