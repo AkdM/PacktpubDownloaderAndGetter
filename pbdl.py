@@ -25,8 +25,9 @@ __status__ = "Development"
 
 def arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-u", "--username", help="Packtpub username", required=True)
-    parser.add_argument("-p", "--password", help="Packtpub password", required=True)
+    parser.add_argument("-u", "--username", type=str, help="Packtpub username", required=True)
+    parser.add_argument("-p", "--password", type=str, help="Packtpub password", required=True)
+    parser.add_argument("-d", "--dlpath", type=str, help="Download path", default="downloads/")
     args = parser.parse_args()
     return args
 
@@ -57,11 +58,18 @@ def main(argv):
     args = arguments()
     login_username = args.username
     login_password = args.password
+    if args.dlpath.endswith("/"):
+        dl_path = args.dlpath
+    else:
+        dl_path = "{}/".format(args.dlpath)
     base_url = "https://www.packtpub.com"
     ebooks_url = "{}/account/my-ebooks".format(base_url)
     req = requests.Session()
 
     try:
+        if not os.path.exists(dl_path):
+            os.makedirs(dl_path)
+
         headers = { 'User-Agent' : get_user_agent(), "Referer": base_url }
         login_data = {
             "email": args.username,
@@ -79,10 +87,17 @@ def main(argv):
         for product in product_account_list.find_all("div", {"class": "product-line"}):
             if 'title' in product.attrs:
                 title = product.attrs['title']
-                print valid_filename(title, True)
-                # for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
-                #     if link.attrs['href'] != "#":
-                #         print "{}{}".format(base_url, link.attrs['href'])
+                filename_pattern = re.compile("\d{13}.*\.[a-zA-z0-9]{3,}")
+                for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
+                    if link.attrs['href'] != "#":
+                        ebook_link = "{}{}".format(base_url, link.attrs['href'])
+                        download_ebook = req.get(ebook_link, headers=headers, allow_redirects=True)
+                        print "Downloading {}".format(title)
+                        filename_with_path = filename_pattern.findall(download_ebook.url)[0]
+                        if not os.path.exists(dl_path + filename_with_path.split("/")[0]):
+                            os.makedirs(dl_path + filename_with_path.split("/")[0])
+                        with open(dl_path + filename_with_path, "wb") as ebook:
+                            ebook.write(download_ebook.content)
 
     except KeyboardInterrupt:
         print "\nExiting...\n"
