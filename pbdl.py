@@ -70,6 +70,7 @@ def main(argv):
         if not os.path.exists(dl_path):
             os.makedirs(dl_path)
 
+        clearAndWrite()
         headers = { 'User-Agent' : get_user_agent(), "Referer": base_url }
         login_data = {
             "email": args.username,
@@ -88,11 +89,11 @@ def main(argv):
             if 'title' in product.attrs:
                 title = product.attrs['title']
                 filename_pattern = re.compile("\d{13}.*\.[a-zA-z0-9]{3,}")
+                print "Downloading {}".format(title)
                 for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
                     if link.attrs['href'] != "#":
                         ebook_link = "{}{}".format(base_url, link.attrs['href'])
                         download_ebook = req.get(ebook_link, headers=headers, allow_redirects=True)
-                        print "Downloading {}".format(title)
                         filename_with_path = filename_pattern.findall(download_ebook.url)[0]
                         if not os.path.exists(dl_path + filename_with_path.split("/")[0]):
                             os.makedirs(dl_path + filename_with_path.split("/")[0])
