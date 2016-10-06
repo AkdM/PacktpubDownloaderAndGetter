@@ -36,6 +36,10 @@ If you feel in the same situation, feel free to use this :)
 
 ## Changelog
 
+**v0.3** (October 06, 2016)
+
+* **[FIXED]** Hotfix on UTF-8 encoding
+
 **v0.2** (October 06, 2016)
 
 * **[FIXED]** Some URL weren't downloading

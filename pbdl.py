@@ -17,7 +17,7 @@ from fake_useragent import UserAgent
 __author__ = "Anthony Da Mota"
 __credits__ = ["Anthony Da Mota"]
 __license__ = "MIT"
-__version__ = "0.2"
+__version__ = "0.3"
 __maintainer__ = "Anhony Da Mota"
 __email__ = "anthony@damota.me"
 __status__ = "Development"
@@ -94,7 +94,7 @@ def main(argv):
 
             for product in product_account_list.find_all("div", {"class": "product-line"}):
                 if 'title' in product.attrs:
-                    title = product.attrs['title']
+                    title = product.attrs['title'].encode('utf-8')
                     print "Downloading {}".format(title)
                     for link in product.find('div', {'class': 'product-buttons-line'}).select('div.download-container')[1].find_all('a'):
                         if link.attrs['href'] != "#":
@@ -110,7 +110,7 @@ def main(argv):
                             directory = filename
                             filename_with_extension = "{}{}".format(filename, media_type)
                             
-                            print "\t… {}".format(media_type)
+                            print "\t... {}".format(media_type)
                             
                             product_req = req.get(ebook_link, headers=headers, allow_redirects=True)
                             if not os.path.exists("{}{}".format(dl_path, directory)):
