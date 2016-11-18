@@ -54,16 +54,7 @@ def valid_filename(text, title=False):
     return output
 
 
-def main(argv):
-    args = arguments()
-    login_username = args.username
-    login_password = args.password
-    if args.dlpath.endswith("/"):
-        dl_path = args.dlpath
-    else:
-        dl_path = "{}/".format(args.dlpath)
-    base_url = "https://www.packtpub.com"
-    ebooks_url = "{}/account/my-ebooks".format(base_url)
+def download_all(login_username, login_password, dl_path, base_url, ebooks_url):
     req = requests.Session()
 
     try:
@@ -73,10 +64,10 @@ def main(argv):
         clearAndWrite()
         print "\nLogging in..."
 
-        headers = { 'User-Agent' : get_user_agent(), "Referer": base_url }
+        headers = {'User-Agent' : get_user_agent(), "Referer": base_url}
         login_data = {
-            "email": args.username,
-            "password": args.password,
+            "email": login_username,
+            "password": login_password,
             "op": "Login",
             "form_id": "packt_user_login_form"
         }
@@ -109,9 +100,9 @@ def main(argv):
                             filename = valid_filename(title, True)
                             directory = filename
                             filename_with_extension = "{}{}".format(filename, media_type)
-                            
+
                             print "\t... {}".format(media_type)
-                            
+
                             product_req = req.get(ebook_link, headers=headers, allow_redirects=True)
                             if not os.path.exists("{}{}".format(dl_path, directory)):
                                 os.makedirs("{}{}".format(dl_path, directory))
@@ -120,10 +111,23 @@ def main(argv):
         else:
             print "\nLogin failed. Please check credentials.\n"
 
-
     except KeyboardInterrupt:
         print "\nExiting...\n"
         sys.exit()
+
+
+def main(argv):
+    args = arguments()
+    login_username = args.username
+    login_password = args.password
+    if args.dlpath.endswith("/"):
+        dl_path = args.dlpath
+    else:
+        dl_path = "{}/".format(args.dlpath)
+    base_url = "https://www.packtpub.com"
+    ebooks_url = "{}/account/my-ebooks".format(base_url)
+
+    download_all(login_username, login_password, dl_path, base_url, ebooks_url)
 
 
 if __name__ == "__main__":
