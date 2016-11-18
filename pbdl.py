@@ -17,7 +17,7 @@ from fake_useragent import UserAgent
 __author__ = "Anthony Da Mota"
 __credits__ = ["Anthony Da Mota"]
 __license__ = "MIT"
-__version__ = "0.3"
+__version__ = "0.4"
 __maintainer__ = "Anhony Da Mota"
 __email__ = "anthony@damota.me"
 __status__ = "Development"
@@ -32,7 +32,7 @@ def arguments():
     return args
 
 
-def clearAndWrite():
+def clear_and_write():
     if os.name == "nt":
         os.system("cls")
     else:
@@ -61,7 +61,7 @@ def download_all(login_username, login_password, dl_path, base_url, ebooks_url):
         if not os.path.exists(dl_path):
             os.makedirs(dl_path)
 
-        clearAndWrite()
+        clear_and_write()
         print "\nLogging in..."
 
         headers = {'User-Agent' : get_user_agent(), "Referer": base_url}
