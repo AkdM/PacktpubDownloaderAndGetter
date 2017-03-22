@@ -36,6 +36,11 @@ If you feel in the same situation, feel free to use this :)
 
 ## Changelog
 
+**v0.5** (March 22, 2017)
+
+* **[FEATURE]** Adds a check if the file has been already downloaded before
+* **[FIXED]** Identation (2 spaces)
+
 **v0.3** (October 06, 2016)
 
 * **[FIXED]** Hotfix on UTF-8 encoding
@@ -56,7 +61,7 @@ Want to contribute? Great! You're welcome to make some pull requests!
 
 ## Todos
 
- - Things
+ - Not much, maybe a multithreading downloader
 
 License
 ----
