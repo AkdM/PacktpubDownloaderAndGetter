@@ -38,7 +38,7 @@ If you feel in the same situation, feel free to use this :)
 
 **v0.5** (March 22, 2017)
 
-* **[FEATURE]** Adds a check if the file has been already downloaded before
+* **[FEATURE]** Adds a check if the file has been already downloaded before (so it won't download it again)
 * **[FIXED]** Identation (2 spaces)
 
 **v0.3** (October 06, 2016)
