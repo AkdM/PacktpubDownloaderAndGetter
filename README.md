@@ -1,4 +1,4 @@
-# Packtpub Downloader
+# Packtpub Downloader + Getter
 ----
 
 Packtpub Downloader is a small tool that allows any registered account to automatically download all the ebooks (ps: more options to come).
@@ -18,7 +18,7 @@ Now that you have the sourced the environment, run the following to install the 
 
 `pip install -r requirements.txt`
 
-**Using Packtpub Download(finally)**
+### Using Packtpub Download (finally)**
 
 The username and password are mandatory:
 
@@ -28,14 +28,27 @@ I've set up multiple arguments for you to provide, those can be shown using the 
 
 `python pbdl.py --help`
 
+### Using Packtpub Getter (finally)**
+
+The username and password are mandatory:
+
+`python pbdl.py -u myemail@mail.com -p mypassword`
+
+I've set up multiple arguments for you to provide, those can be shown using the following command:
+
+`python pbdl.py --help`
+
+
 ## What for?
 
 Packtpub.com has a free ebook available each day, I didn't want to download my 100+ ebooks I had on my account, so I developed this.
 
 If you feel in the same situation, feel free to use this :)
 
-## Changelog
+## Changelogs
 
+### pbdl.py (Downloads the ebook)
+<details>
 **v0.5** (March 22, 2017)
 
 * **[FEATURE]** Adds a check if the file has been already downloaded before (so it won't download it again)
@@ -54,6 +67,14 @@ If you feel in the same situation, feel free to use this :)
 **v0.1** (October 06, 2016)
 
 * First version, some things are working.
+</details>
+
+### pbget.py (Acquires today's ebook to your account)
+<details>
+**v0.1** (April 25, 2017)
+
+* First version, some things are working. --sms for smaller output (only `stdout` the ebook name or error if any).
+</details>
 
 ## Development
 
