@@ -18,7 +18,7 @@ Now that you have the sourced the environment, run the following to install the 
 
 `pip install -r requirements.txt`
 
-### Using Packtpub Download (finally)**
+### Using Packtpub Download
 
 The username and password are mandatory:
 
@@ -28,7 +28,7 @@ I've set up multiple arguments for you to provide, those can be shown using the 
 
 `python pbdl.py --help`
 
-### Using Packtpub Getter (finally)**
+### Using Packtpub Getter
 
 The username and password are mandatory:
 
