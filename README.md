@@ -49,6 +49,7 @@ If you feel in the same situation, feel free to use this :)
 
 ### pbdl.py (Downloads the ebook)
 <details>
+
 **v0.5** (March 22, 2017)
 
 * **[FEATURE]** Adds a check if the file has been already downloaded before (so it won't download it again)
@@ -71,6 +72,7 @@ If you feel in the same situation, feel free to use this :)
 
 ### pbget.py (Acquires today's ebook to your account)
 <details>
+
 **v0.1** (April 25, 2017)
 
 * First version, some things are working. --sms for smaller output (only `stdout` the ebook name or error if any).
